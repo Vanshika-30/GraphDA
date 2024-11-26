@@ -104,7 +104,10 @@ class Loader(BasicDataset):
 
             validUniqueUsers.append(uid)
             validUser.extend([uid])
-            validItem.extend([itemids[-2]])
+            if len(itemids) >= 2 :
+                validItem.extend([itemids[-2]])
+            else:
+                validItem.extend([itemids[-1]])
             self.validSize += 1
 
             testUniqueUsers.append(uid)

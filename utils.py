@@ -315,7 +315,7 @@ def cal_mrr(actual, predicted):
         r = np.array(r)
         if np.sum(r) > 0:
             #sum_mrr += np.reciprocal(np.where(r==1)[0]+1, dtype=np.float)[0]
-            one_user_mrr = np.reciprocal(np.where(r==1)[0]+1, dtype=np.float)[0]
+            one_user_mrr = np.reciprocal(np.where(r==1)[0]+1, dtype=float)[0]
             sum_mrr += one_user_mrr
             true_users += 1
             mrr_dict[i] = one_user_mrr
@@ -437,34 +437,57 @@ def get_user_performance_perpopularity(train, results_users, Ks):
 
         for result_user in tqdm(test_users):
             if len(train[result_user]) <= 3:
-                short_seq_results["recall"][k_ind] += recall_dict_k[result_user]
-                short_seq_results["ndcg"][k_ind] += ndcg_dict_k[result_user]
+                try:
+                    short_seq_results["recall"][k_ind] += recall_dict_k[result_user]
+                    short_seq_results["ndcg"][k_ind] += ndcg_dict_k[result_user]
+                finally:
+                    continue
 
             if len(train[result_user]) > 3 and len(train[result_user]) <= 7:
-                short37_seq_results["recall"][k_ind] += recall_dict_k[result_user]
-                short37_seq_results["ndcg"][k_ind] += ndcg_dict_k[result_user]
-
+                try:    
+                    short37_seq_results["recall"][k_ind] += recall_dict_k[result_user]
+                    short37_seq_results["ndcg"][k_ind] += ndcg_dict_k[result_user]
+                finally:
+                    continue
 
             if len(train[result_user]) > 7 and len(train[result_user]) < 20:
-                medium7_seq_results["recall"][k_ind] += recall_dict_k[result_user]
-                medium7_seq_results["ndcg"][k_ind] += ndcg_dict_k[result_user]
+                try:
+                    medium7_seq_results["recall"][k_ind] += recall_dict_k[result_user]
+                    medium7_seq_results["ndcg"][k_ind] += ndcg_dict_k[result_user]
+                finally:
+                    continue
 
             if len(train[result_user]) >= 20:
-                long_seq_results["recall"][k_ind] += recall_dict_k[result_user]
-                long_seq_results["ndcg"][k_ind] += ndcg_dict_k[result_user]
+                try:
+                    long_seq_results["recall"][k_ind] += recall_dict_k[result_user]
+                    long_seq_results["ndcg"][k_ind] += ndcg_dict_k[result_user]
+                finally:
+                    continue
 
     for result_user in tqdm(test_users):
         if len(train[result_user]) <= 3:
-            short_seq_results["mrr"] += mrr_dict[result_user]
+            try:
+                short_seq_results["mrr"] += mrr_dict[result_user]
+            finally:
+                continue
 
         if len(train[result_user]) > 3 and len(train[result_user]) <= 7:
-            short37_seq_results["mrr"] += mrr_dict[result_user]
+            try:
+                short37_seq_results["mrr"] += mrr_dict[result_user]
+            finally:
+                continue
 
         if len(train[result_user]) > 7 and len(train[result_user]) < 20:
-            medium7_seq_results["mrr"] += mrr_dict[result_user]
+            try:
+                medium7_seq_results["mrr"] += mrr_dict[result_user]
+            finally:
+                continue
 
         if len(train[result_user]) >= 20:
-            long_seq_results["mrr"] += mrr_dict[result_user]
+            try:
+                long_seq_results["mrr"] += mrr_dict[result_user]
+            finally:
+                continue
 
     if num_short_seqs > 0:
         short_seq_results["recall"] /= num_short_seqs
