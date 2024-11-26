@@ -40,8 +40,6 @@ utils.set_seed(args.seed)
 from warnings import simplefilter
 simplefilter(action="ignore", category=FutureWarning)
 
-
-
 #Recmodel = register.MODELS[world.model_name](world.config, dataset)
 dataset = dataloader.Loader(args)
 if args.model_name == 'LightGCN':
@@ -61,8 +59,8 @@ checkpoint_path = utils.getFileName("./checkpoints/", args)
 print(f"load and save to {checkpoint_path}")
 
 if args.do_eval:
-    if args.data_name == 'Office_Products':
-        checkpoint_path = './checkpoints/Office_Products-LightGCN-Office_Products-4-0.001-0.0001-1000-1-0.7.pth.tar'
+    if args.data_name == 'movie_lenz_rating_1':
+        checkpoint_path = './checkpoints/movie_lenz_rating_1-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar' 
     print(f'Load model from {checkpoint_path} for test!')
     trainer.load(checkpoint_path)
 
@@ -81,14 +79,17 @@ if args.do_eval:
 
 else:
 
-    if args.data_name == 'Office_Products':
-        checkpoint_path = './checkpoints/Office_Products-LightGCN-Office_Products-4-0.001-0.0001-1000-1-0.7.pth.tar'
-    elif args.data_name == 'Beauty':
-        checkpoint_path = './checkpoints/Beauty-LightGCN-Beauty-2-0.001-0.0001-1000-1-0.7.pth.tar'
-    elif args.data_name == 'Tools_and_Home_Improvement':
-        checkpoint_path = './checkpoints/Tools_and_Home_Improvement-LightGCN-Tools_and_Home_Improvement-4-0.001-0.0001-1000-1-0.3.pth.tar'
-    elif args.data_name == 'Toys_and_Games':
-        checkpoint_path = './checkpoints/Toys_and_Games-LightGCN-Toys_and_Games-4-0.001-0.0001-1000-1-0.7.pth.tar'
+    if args.data_name == 'movie_lenz_rating_1':
+        checkpoint_path = './checkpoints/movie_lenz_rating_1-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar'
+    elif args.data_name == 'movie_lenz_rating_2':
+        checkpoint_path = './checkpoints/movie_lenz_rating_2-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar'    
+    elif args.data_name == 'movie_lenz_rating_3':
+        checkpoint_path = './checkpoints/movie_lenz_rating_3-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar'    
+    elif args.data_name == 'movie_lenz_rating_4':
+        checkpoint_path = './checkpoints/movie_lenz_rating_4-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar'    
+    elif args.data_name == 'movie_lenz_rating_5':
+        checkpoint_path = './checkpoints/movie_lenz_rating_5-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar'  
+
     print(f'Load model from {checkpoint_path} for test!')
     trainer.load(checkpoint_path)
 
