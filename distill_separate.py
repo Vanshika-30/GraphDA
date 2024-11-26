@@ -10,6 +10,20 @@ from os.path import join
 from model import LightGCN, PureMF, UltraGCN, SGCN
 from trainers import GraphRecTrainer
 from utils import EarlyStopping
+import glob
+
+# Function to dynamically pick the correct tar file
+def get_tar_file(directory, prefix):
+    """
+    Find the tar file in the directory that matches the given prefix.
+    """
+    search_pattern = os.path.join(directory, f"{prefix}*.pth.tar")
+    matching_files = glob.glob(search_pattern)
+    if not matching_files:
+        print(f"No tar file found with prefix: {prefix}")
+        return None
+    # If multiple matches are found, pick the first (or handle as needed)
+    return matching_files[0]
 
 
 def cprint(words : str):
@@ -60,7 +74,9 @@ print(f"load and save to {checkpoint_path}")
 
 if args.do_eval:
     if args.data_name == 'movie_lenz_rating_1':
-        checkpoint_path = './checkpoints/movie_lenz_rating_1-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar' 
+        prefix = f"movie_lenz_rating_1-LightGCN"
+        checkpoint_path = get_tar_file("./checkpoints", prefix)
+        # checkpoint_path = './checkpoints/movie_lenz_rating_1-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar' 
     print(f'Load model from {checkpoint_path} for test!')
     trainer.load(checkpoint_path)
 
@@ -78,17 +94,18 @@ if args.do_eval:
     scores, result_info, _ = trainer.complicated_eval()
 
 else:
-
-    if args.data_name == 'movie_lenz_rating_1':
-        checkpoint_path = './checkpoints/movie_lenz_rating_1-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar'
-    elif args.data_name == 'movie_lenz_rating_2':
-        checkpoint_path = './checkpoints/movie_lenz_rating_2-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar'    
-    elif args.data_name == 'movie_lenz_rating_3':
-        checkpoint_path = './checkpoints/movie_lenz_rating_3-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar'    
-    elif args.data_name == 'movie_lenz_rating_4':
-        checkpoint_path = './checkpoints/movie_lenz_rating_4-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar'    
-    elif args.data_name == 'movie_lenz_rating_5':
-        checkpoint_path = './checkpoints/movie_lenz_rating_5-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar'  
+    prefix = f"movie_lenz_rating_{args.data_name.split('_')[-1]}-LightGCN"
+    checkpoint_path = get_tar_file("./checkpoints", prefix)
+    # if args.data_name == 'movie_lenz_rating_1':
+    #     checkpoint_path = './checkpoints/movie_lenz_rating_1-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar'
+    # elif args.data_name == 'movie_lenz_rating_2':
+    #     checkpoint_path = './checkpoints/movie_lenz_rating_2-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar'    
+    # elif args.data_name == 'movie_lenz_rating_3':
+    #     checkpoint_path = './checkpoints/movie_lenz_rating_3-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar'    
+    # elif args.data_name == 'movie_lenz_rating_4':
+    #     checkpoint_path = './checkpoints/movie_lenz_rating_4-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar'    
+    # elif args.data_name == 'movie_lenz_rating_5':
+    #     checkpoint_path = './checkpoints/movie_lenz_rating_5-LightGCN-movie_lenz_rating_1-3-0.001-0.001-1000-1-0.3.pth.tar'  
 
     print(f'Load model from {checkpoint_path} for test!')
     trainer.load(checkpoint_path)
