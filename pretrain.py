@@ -3,6 +3,7 @@ import torch
 import numpy as np
 import dataloader
 import time
+import copy
 from parse import parse_args
 import multiprocessing
 import os
@@ -68,7 +69,30 @@ if args.do_eval:
     print(f'Load model from {checkpoint_path} for test!')
     #scores, result_info, _ = trainer.test(0, full_sort=True)
     scores, result_info, _ = trainer.complicated_eval()
+elif args.do_finetune:
+    args_2 = copy.deepcopy(args)
+    args_2.timestamp-=1
+    checkpoint_path_previous = utils.getFileName("./checkpoints/", args2)
+    trainer.model.load_state_dict(torch.load(checkpoint_path_previous))
+    print("Dataset updated with new data. Starting fine-tuning...")
+    # Load the pretrained model
+    
+    # Adjust training parameters for fine-tuning
+    args.learning_rate *= 0.1  # Reduce learning rate
+    args.epochs = 10  # Fewer epochs for fine-tuning
 
+    early_stopping = EarlyStopping(checkpoint_path, patience=10, verbose=True)
+    for epoch in range(args.epochs):
+        trainer.train(epoch)
+        if (epoch + 1) % 2 == 0:
+            scores, _, _ = trainer.valid(epoch, full_sort=True)
+            early_stopping(np.array(scores[-1:]), trainer.model)
+            if early_stopping.early_stop:
+                print("Early stopping during fine-tuning")
+                break
+
+    print("Fine-tuning completed. Saving updated model...")
+    torch.save(trainer.model.state_dict(), checkpoint_path)
 else:
 
     early_stopping = EarlyStopping(checkpoint_path, patience=50, verbose=True)

@@ -131,6 +131,14 @@ def getFileName(file_path, args):
         modelfile = f"{args.data_name}-{args.model_name}-{args.data_name}-{args.layer}-{args.lr}-{args.decay}-{args.epochs}-{args.dropout}-{args.keepprob}-{args.w1}-{args.w2}-{args.w3}-{args.w4}-{args.lambda_Iweight}-{args.negative_num}-{args.ii_neighbor_num}.pth.tar"
     return os.path.join(file_path, modelfile)
 
+def getFileNameDynamic(file_path, args):
+    if args.model_name != "UltraGCN":
+        modelfile = f"{args.data_name}-{args.model_name}-{args.data_name}-{args.layer}-{args.lr}-{args.decay}-{args.epochs}-{args.dropout}-{args.keepprob}-{args.timestamp}.pth.tar"
+    elif args.model_name == "GTN":
+        modelfile = f"{args.data_name}-{args.model_name}-{args.data_name}-{args.layer}-{args.lr}-{args.decay}-{args.epochs}-{args.dropout}-{args.keepprob}-{args.alpha}-{args.beta}-{args.gamma}-{args.alpha1}-{args.alpha2}-{args.lambda2}-{args.prop_dropout}-{args.timestamp}.pth.tar"
+    else:
+        modelfile = f"{args.data_name}-{args.model_name}-{args.data_name}-{args.layer}-{args.lr}-{args.decay}-{args.epochs}-{args.dropout}-{args.keepprob}-{args.w1}-{args.w2}-{args.w3}-{args.w4}-{args.lambda_Iweight}-{args.negative_num}-{args.ii_neighbor_num}-{args.timestamp}.pth.tar"
+    return os.path.join(file_path, modelfile)
 def getDistillFileName(file_path, args):
     if args.model_name != "UltraGCN":
         modelfile = f"{args.data_name}-{args.model_name}-{args.data_name}-{args.layer}-{args.lr}-{args.decay}-{args.epochs}-{args.dropout}-{args.keepprob}-{args.distill_userK}-{args.distill_itemK}-{args.distill_thres}-{args.distill_layers}.pth.tar"

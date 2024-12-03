@@ -4,10 +4,13 @@ import argparse
 def parse_args():
     parser = argparse.ArgumentParser(description="GraphRec")
     parser.add_argument('--bpr_batch', type=int,default=2048,
-                        help="the batch size for bpr loss training procedure")
+                        help="Current timestamp of training")
+    parser.add_argument('--timestamp', type=int,default=1,
+                        help="Current timestamp of training")
     parser.add_argument('--model_name', type=str, default='LightGCN',
                         help="model names")
     parser.add_argument('--do_eval', action='store_true')
+    parser.add_argument('--do_finetune', action='store_true')
     parser.add_argument('--recdim', type=int,default=64,
                         help="the embedding size of lightGCN")
     parser.add_argument('--layer', type=int,default=3,

@@ -75,6 +75,8 @@ class Loader(BasicDataset):
     def __init__(self, args):
         # train or test
         datapath = './data/'
+        if args.do_finetune:
+            args.data_name += "_snap" + str(args.timestamp)
         data_file = datapath+'/'+args.data_name+'.txt'
         self.args = args
         self.split = False
