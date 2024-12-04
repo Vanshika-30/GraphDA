@@ -69,7 +69,7 @@ if args.do_eval:
     print(f'Load model from {checkpoint_path} for test!')
     #scores, result_info, _ = trainer.test(0, full_sort=True)
     scores, result_info, _ = trainer.complicated_eval()
-elif args.do_finetune:
+elif args.do_finetune and args.timestamp % 4 != 1:
     args_2 = copy.deepcopy(args)
     args_2.timestamp-=1
     checkpoint_path_previous = utils.getFileName("./checkpoints/", args2)
