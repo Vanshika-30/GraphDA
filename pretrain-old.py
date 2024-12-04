@@ -71,7 +71,7 @@ if args.do_eval:
 
 else:
 
-    early_stopping = EarlyStopping(checkpoint_path, patience=50, verbose=True)
+    early_stopping = EarlyStopping(checkpoint_path, patience=0, verbose=True)
     for epoch in range(args.epochs):
         trainer.train(epoch)
         # evaluate on MRR
