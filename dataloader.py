@@ -74,7 +74,7 @@ class Loader(BasicDataset):
 
     def __init__(self, args):
         # train or test
-        datapath = './data/'
+        datapath = args.data_path
         data_file = datapath+'/'+args.data_name+'.txt'
         self.args = args
         self.split = False
