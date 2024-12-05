@@ -277,7 +277,7 @@ class GraphRecTrainer(Trainer):
 
         if userK > 0:
             with torch.no_grad():
-                users = list(set(self.dataset.trainUser))
+                users = list(set(self.dataset.trainUser)) 
                 try:
                     assert u_batch_size <= len(users) / 10
                 except AssertionError:
